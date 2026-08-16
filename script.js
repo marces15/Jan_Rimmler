@@ -9,7 +9,9 @@ const CONFIG = {
     "Pizza, Spiele und Kuscheldecke",
     "Überraschung ;)"
   ],
-  photoPath: "assets/photo.jpg"
+  photoPath: "assets/photo.jpg",
+  whatsappNumber: "491725726718",
+  emailAddress: "markusbraun.15@web.de"
 };
 
 const STORAGE_KEY = "pixelDateChoice";
@@ -25,6 +27,9 @@ const noTexts = [
 ];
 
 let selectedChoice = "";
+let selectedDate = "";
+let selectedTime = "";
+let selectedNote = "";
 let noAttempts = 0;
 let lastInputWasKeyboard = false;
 
@@ -36,9 +41,9 @@ function showScreen(name) {
   });
 
   const activeScreen = document.querySelector(`[data-screen="${name}"]`);
-  const firstButton = activeScreen?.querySelector("button:not([disabled]), [role='radio']");
-  if (firstButton) {
-    setTimeout(() => firstButton.focus({ preventScroll: true }), 80);
+  const firstControl = activeScreen?.querySelector("input:not([disabled]), textarea:not([disabled]), button:not([disabled]), [role='radio']");
+  if (firstControl) {
+    setTimeout(() => firstControl.focus({ preventScroll: true }), 80);
   }
 }
 
@@ -83,6 +88,11 @@ function selectOption(option) {
   document.querySelector(".confirm-choice").disabled = false;
 }
 
+function continueToSchedule() {
+  if (!selectedChoice) return;
+  showScreen("schedule");
+}
+
 function handleOptionKeys(event, index) {
   const keys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp", "Home", "End"];
   if (!keys.includes(event.key)) return;
@@ -107,36 +117,70 @@ function moveNoButton() {
   noButton.textContent = noTexts[(noAttempts - 1) % noTexts.length];
 
   const screen = document.querySelector('[data-screen="question"]');
+  const currentX = parseFloat(noButton.style.getPropertyValue("--no-x")) || 0;
+  const currentY = parseFloat(noButton.style.getPropertyValue("--no-y")) || 0;
   const screenRect = screen.getBoundingClientRect();
   const buttonRect = noButton.getBoundingClientRect();
-  const maxX = Math.max(0, (screenRect.width - buttonRect.width) / 2 - 18);
-  const maxY = Math.max(0, (screenRect.height - buttonRect.height) / 2 - 18);
-  const direction = noAttempts % 2 === 0 ? -1 : 1;
-  const randomX = (Math.random() * maxX * 0.9 + 24) * direction;
-  const randomY = (Math.random() * maxY * 0.5 - maxY * 0.25);
+  const baseLeft = buttonRect.left - currentX;
+  const baseRight = buttonRect.right - currentX;
+  const baseTop = buttonRect.top - currentY;
+  const baseBottom = buttonRect.bottom - currentY;
+  const padding = 14;
+  const minX = Math.ceil(screenRect.left + padding - baseLeft);
+  const maxX = Math.floor(screenRect.right - padding - baseRight);
+  const minY = Math.ceil(screenRect.top + padding - baseTop);
+  const maxY = Math.floor(screenRect.bottom - padding - baseBottom);
+  const randomX = minX + Math.random() * Math.max(0, maxX - minX);
+  const randomY = minY + Math.random() * Math.max(0, maxY - minY);
 
   noButton.style.setProperty("--no-x", `${Math.round(randomX)}px`);
   noButton.style.setProperty("--no-y", `${Math.round(randomY)}px`);
 }
 
 function saveAndShowFinal() {
-  if (!selectedChoice) return;
+  if (!selectedChoice || !selectedDate || !selectedTime) return;
 
   const payload = {
     choice: selectedChoice,
+    date: selectedDate,
+    time: selectedTime,
+    note: selectedNote,
     savedAt: new Date().toISOString()
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  updateFinal(payload.choice);
+  updateFinal(payload);
   showScreen("final");
 }
 
-function updateFinal(choice) {
+function updateFinal(result) {
+  const choice = typeof result === "string" ? result : result.choice;
+  const date = typeof result === "string" ? "" : result.date;
+  const time = typeof result === "string" ? "" : result.time;
+  const note = typeof result === "string" ? "" : result.note;
+
   document.querySelector(".result-choice").textContent = choice;
+  document.querySelector(".result-when").textContent = formatDateTime(date, time);
+  selectedChoice = choice || "";
+  selectedDate = date || "";
+  selectedTime = time || "";
+  selectedNote = note || "";
+}
+
+function formatDateTime(date, time) {
+  if (!date || !time) return "Noch kein Termin eingetragen.";
+
+  const [year, month, day] = date.split("-");
+  return `${day}.${month}.${year} um ${time} Uhr`;
+}
+
+function buildReplyText() {
+  const when = formatDateTime(selectedDate, selectedTime);
+  const notePart = selectedNote ? ` Nachricht: ${selectedNote}` : "";
+  return `Jaaa, ich bin dabei! Unser Date: ${selectedChoice}. Termin: ${when}.${notePart}`;
 }
 
 async function copyResult() {
-  const text = `Unser Date: ${selectedChoice || document.querySelector(".result-choice").textContent}. ${CONFIG.finalMessage}`;
+  const text = buildReplyText();
   const status = document.querySelector(".copy-status");
 
   try {
@@ -153,14 +197,34 @@ async function copyResult() {
   }
 }
 
+function openWhatsApp() {
+  const encoded = encodeURIComponent(buildReplyText());
+  const number = CONFIG.whatsappNumber.replace(/[^\d]/g, "");
+  const url = number ? `https://wa.me/${number}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
+  window.open(url, "_blank", "noopener");
+  document.querySelector(".copy-status").textContent = "WhatsApp wurde mit der fertigen Nachricht geöffnet.";
+}
+
+function openEmail() {
+  const subject = encodeURIComponent("Meine Date-Antwort");
+  const body = encodeURIComponent(buildReplyText());
+  const recipient = encodeURIComponent(CONFIG.emailAddress);
+  window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+  document.querySelector(".copy-status").textContent = "Dein Mailprogramm wurde mit der fertigen Nachricht geöffnet.";
+}
+
 function restart() {
   selectedChoice = "";
+  selectedDate = "";
+  selectedTime = "";
+  selectedNote = "";
   noAttempts = 0;
-  noButton.textContent = "Nein 🥺";
+  noButton.textContent = "Nein";
   noButton.style.setProperty("--no-x", "0px");
   noButton.style.setProperty("--no-y", "0px");
   document.querySelector(".confirm-choice").disabled = true;
   document.querySelector(".copy-status").textContent = "";
+  document.querySelector(".schedule-form").reset();
   document.querySelectorAll(".date-card").forEach((card) => card.setAttribute("aria-checked", "false"));
   showScreen("start");
 }
@@ -169,8 +233,7 @@ function restoreSavedChoice() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (saved?.choice) {
-      selectedChoice = saved.choice;
-      updateFinal(saved.choice);
+      updateFinal(saved);
       showScreen("final");
     }
   } catch {
@@ -195,9 +258,19 @@ document.addEventListener("click", (event) => {
   if (action === "start") showScreen("question");
   if (action === "yes") showScreen("confirm");
   if (action === "choose") showScreen("dates");
-  if (action === "confirm-choice") saveAndShowFinal();
+  if (action === "confirm-choice") continueToSchedule();
+  if (action === "whatsapp") openWhatsApp();
+  if (action === "email") openEmail();
   if (action === "copy") copyResult();
   if (action === "restart") restart();
+});
+
+document.querySelector(".schedule-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  selectedDate = document.querySelector(".date-input").value;
+  selectedTime = document.querySelector(".time-input").value;
+  selectedNote = document.querySelector(".note-input").value.trim();
+  saveAndShowFinal();
 });
 
 noButton.addEventListener("pointerenter", moveNoButton);
@@ -214,4 +287,5 @@ noButton.addEventListener("click", (event) => {
 
 initText();
 renderOptions();
+showScreen("start");
 restoreSavedChoice();

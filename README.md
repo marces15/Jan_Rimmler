@@ -11,6 +11,8 @@ Oeffne `script.js` und passe oben im `CONFIG`-Block die Werte an:
 - `finalMessage`: deine Abschlussnachricht
 - `options`: die Date-Auswahlmoeglichkeiten
 - `photoPath`: Pfad zu einem optionalen Foto
+- `whatsappNumber`: deine Telefonnummer im internationalen Format, zum Beispiel `491701234567`
+- `emailAddress`: deine E-Mail-Adresse
 
 Beispiel:
 
@@ -20,9 +22,22 @@ const CONFIG = {
   question: "Moechtest du mit mir am Samstag ein besonderes Date machen?",
   finalMessage: "Ich freue mich auf dich.",
   options: ["Kino", "Picknick", "Restaurant", "Spieleabend", "Ueberrasch mich"],
-  photoPath: "assets/photo.jpg"
+  photoPath: "assets/photo.jpg",
+  whatsappNumber: "491701234567",
+  emailAddress: "du@example.com"
 };
 ```
+
+## Rueckmeldung per WhatsApp oder Mail
+
+Eine rein lokale Webseite ohne Backend kann keine Nachricht automatisch
+verschicken. Die Buttons auf dem Abschlussbildschirm oeffnen deshalb WhatsApp
+oder das Mailprogramm mit einer fertig ausgefuellten Antwort. Dein Freund muss
+die Nachricht dort nur noch absenden.
+
+Wenn du `whatsappNumber` leer laesst, oeffnet sich WhatsApp ohne feste
+Empfaengernummer. Wenn du `emailAddress` leer laesst, oeffnet sich eine neue
+Mail ohne Empfaenger.
 
 ## Eigenes Foto einfuegen
 

@@ -68,17 +68,43 @@
         </button>
       </section>
 
+      <section class="screen" data-screen="schedule" aria-labelledby="schedule-title">
+        <p class="level-label">Level 3</p>
+        <h2 id="schedule-title">Wann passt es dir?</h2>
+        <form class="schedule-form">
+          <label class="pixel-field">
+            <span>Datum</span>
+            <input class="date-input" type="date" required>
+          </label>
+          <label class="pixel-field">
+            <span>Uhrzeit</span>
+            <input class="time-input" type="time" required>
+          </label>
+          <label class="pixel-field full">
+            <span>Kleine Nachricht dazu</span>
+            <textarea class="note-input" rows="3" maxlength="180" placeholder="Optional: Ich freu mich schon!"></textarea>
+          </label>
+          <button class="pixel-button primary" type="submit">
+            Termin bestätigen
+          </button>
+        </form>
+      </section>
+
       <section class="screen" data-screen="final" aria-labelledby="final-title">
         <p class="level-label">Side-Quest gespeichert</p>
         <h2 id="final-title">Unser Date steht!</h2>
         <div class="result-card">
           <p class="result-label">Das hast du dir ausgesucht:</p>
           <p class="result-choice"></p>
+          <p class="result-label">Termin:</p>
+          <p class="result-when"></p>
         </div>
         <img class="couple-photo" src="assets/photo.jpg" alt="Gemeinsames Foto" hidden>
         <p class="personal-message"></p>
         <div class="final-actions">
-          <button class="pixel-button primary" type="button" data-action="copy">Nachricht kopieren</button>
+          <button class="pixel-button primary" type="button" data-action="whatsapp">Per WhatsApp senden</button>
+          <button class="pixel-button secondary" type="button" data-action="email">Per Mail senden</button>
+          <button class="pixel-button secondary" type="button" data-action="copy">Nachricht kopieren</button>
           <button class="pixel-button secondary" type="button" data-action="restart">Nochmal ansehen</button>
         </div>
         <p class="copy-status" role="status" aria-live="polite"></p>
