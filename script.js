@@ -9,9 +9,7 @@ const CONFIG = {
     "Pizza, Spiele und Kuscheldecke",
     "Überraschung ;)"
   ],
-  photoPath: "assets/photo.jpg",
-  whatsappNumber: "491725726718",
-  emailAddress: "markusbraun.15@web.de"
+  photoPath: "assets/photo.jpg"
 };
 
 const STORAGE_KEY = "pixelDateChoice";
@@ -197,22 +195,6 @@ async function copyResult() {
   }
 }
 
-function openWhatsApp() {
-  const encoded = encodeURIComponent(buildReplyText());
-  const number = CONFIG.whatsappNumber.replace(/[^\d]/g, "");
-  const url = number ? `https://wa.me/${number}?text=${encoded}` : `https://wa.me/?text=${encoded}`;
-  window.open(url, "_blank", "noopener");
-  document.querySelector(".copy-status").textContent = "WhatsApp wurde mit der fertigen Nachricht geöffnet.";
-}
-
-function openEmail() {
-  const subject = encodeURIComponent("Meine Date-Antwort");
-  const body = encodeURIComponent(buildReplyText());
-  const recipient = encodeURIComponent(CONFIG.emailAddress);
-  window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-  document.querySelector(".copy-status").textContent = "Dein Mailprogramm wurde mit der fertigen Nachricht geöffnet.";
-}
-
 function restart() {
   selectedChoice = "";
   selectedDate = "";
@@ -259,8 +241,6 @@ document.addEventListener("click", (event) => {
   if (action === "yes") showScreen("confirm");
   if (action === "choose") showScreen("dates");
   if (action === "confirm-choice") continueToSchedule();
-  if (action === "whatsapp") openWhatsApp();
-  if (action === "email") openEmail();
   if (action === "copy") copyResult();
   if (action === "restart") restart();
 });
