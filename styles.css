@@ -343,6 +343,11 @@ p {
   width: 100%;
 }
 
+.question-actions {
+  min-height: 6.5rem;
+  align-items: center;
+}
+
 .pixel-button {
   position: relative;
   min-width: 9.5rem;
@@ -399,10 +404,12 @@ p {
   min-width: 12rem;
   min-height: 4rem;
   font-size: 1.3rem;
+  align-self: flex-start;
 }
 
 .no-button {
   min-width: 7.25rem;
+  align-self: flex-end;
   transform: translate(var(--no-x, 0), var(--no-y, 0));
   z-index: 3;
 }
@@ -646,6 +653,16 @@ p {
 
   .pixel-button {
     width: 100%;
+  }
+
+  .question-actions {
+    min-height: 9rem;
+  }
+
+  .question-actions .no-button {
+    width: min(12rem, 70%);
+    align-self: center;
+    margin-top: 0.25rem;
   }
 
   .date-grid {

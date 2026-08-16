@@ -253,14 +253,10 @@ document.querySelector(".schedule-form").addEventListener("submit", (event) => {
   saveAndShowFinal();
 });
 
-noButton.addEventListener("pointerenter", moveNoButton);
-noButton.addEventListener("pointerdown", moveNoButton);
-noButton.addEventListener("focus", () => {
-  if (!lastInputWasKeyboard) moveNoButton();
-});
 noButton.addEventListener("click", (event) => {
   if (!lastInputWasKeyboard) {
     event.preventDefault();
+    event.stopPropagation();
     moveNoButton();
   }
 });
