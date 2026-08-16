@@ -470,11 +470,13 @@ p {
 .schedule-form {
   width: min(34rem, 100%);
   align-items: end;
+  min-width: 0;
 }
 
 .pixel-field {
   display: grid;
   flex: 1 1 14rem;
+  min-width: 0;
   gap: 0.45rem;
   color: var(--ink);
   font-weight: 700;
@@ -488,6 +490,8 @@ p {
 .pixel-field input,
 .pixel-field textarea {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 3.5rem;
   padding: 0.75rem;
   border: 4px solid var(--ink);
@@ -623,19 +627,29 @@ p {
 @media (max-width: 680px) {
   .app {
     align-items: start;
-    padding-top: 1rem;
+    padding: 0.6rem;
   }
 
   .screen {
-    min-height: calc(100svh - 2rem);
+    width: 100%;
+    min-height: auto;
+    max-height: calc(100svh - 1.2rem);
+    padding: 0.9rem;
+    align-content: start;
+    overflow-y: auto;
+    border-width: 3px;
     box-shadow:
-      0 0 0 4px rgba(255, 111, 181, 0.36),
-      0.35rem 0.35rem 0 rgba(36, 22, 63, 0.32);
+      0 0 0 3px rgba(255, 111, 181, 0.32),
+      0.2rem 0.2rem 0 rgba(36, 22, 63, 0.28);
+  }
+
+  .screen.is-active {
+    gap: 0.7rem;
   }
 
   h1,
   h2 {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
   }
 
   p {
@@ -651,6 +665,7 @@ p {
   .schedule-form {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.65rem;
   }
 
   .pixel-button {
@@ -670,12 +685,33 @@ p {
   .pixel-field {
     width: 100%;
     flex-basis: 100%;
+    gap: 0.28rem;
+    font-size: 0.95rem;
   }
 
   .pixel-field input,
   .pixel-field textarea {
-    min-height: 3.8rem;
+    min-height: 3rem;
+    padding: 0.55rem;
+    border-width: 3px;
     font-size: 1rem;
+  }
+
+  .pixel-field textarea {
+    min-height: 4.25rem;
+  }
+
+  [data-screen="schedule"] h2 {
+    font-size: 1.65rem;
+  }
+
+  [data-screen="schedule"] .level-label {
+    font-size: 0.78rem;
+  }
+
+  [data-screen="schedule"] .pixel-button {
+    min-height: 3rem;
+    padding: 0.65rem 0.8rem;
   }
 
   .date-grid {
