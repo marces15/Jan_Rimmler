@@ -1,7 +1,7 @@
 const CONFIG = {
   name: "Spätz",
   question: "Möchtest du mit mir auf ein Date gehen?",
-  finalMessage: "Yippiiieeeee!! Egal, was wir machen: Hauptsache, wir sind zusammen.",
+  finalMessage: "Yippiiieeeee!! Ich freue mich auf dich, Schätz <3",
   options: [
     "Picknick unter Sternen",
     "Kinoabend mit Lieblingssnacks",
