@@ -9,7 +9,7 @@ const CONFIG = {
     "Pizza, Spiele und Kuscheldecke",
     "Überraschung ;)"
   ],
-  photoPath: "assets/photo.jpg"
+  photoPath: "assets/photo.jpg?v=20260816-2"
 };
 
 const STORAGE_KEY = "pixelDateChoice";
