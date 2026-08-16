@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Eine romantische Pixel-Art-Ueberraschung">
+    <title>Jans geile Überraschung</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Zum Inhalt springen</a>
+
+    <div class="world" aria-hidden="true">
+      <div class="sun"></div>
+      <div class="cloud cloud-a"></div>
+      <div class="cloud cloud-b"></div>
+      <div class="cloud cloud-c"></div>
+      <div class="stars"></div>
+      <div class="float-heart heart-a"></div>
+      <div class="float-heart heart-b"></div>
+      <div class="float-heart heart-c"></div>
+      <div class="pixel-hills"></div>
+    </div>
+
+    <main id="app" class="app" aria-live="polite">
+      <section class="screen is-active" data-screen="start">
+        <div class="pixel-stage" aria-label="Zwei verliebte Pixel-Figuren">
+          <div class="character character-left">
+            <span class="face"></span>
+          </div>
+          <div class="character character-right">
+            <span class="face"></span>
+          </div>
+          <div class="heart-pixel"></div>
+        </div>
+
+        <h1 id="start-title">Hey Spätz!</h1>
+        <p>Ich habe eine Überraschung für dich.</p>
+        <button class="pixel-button primary" type="button" data-action="start">
+          Überraschung starten
+        </button>
+      </section>
+
+      <section class="screen" data-screen="question" aria-labelledby="question-title">
+        <p class="level-label">Level 1</p>
+        <h2 id="question-title">Möchtest du mit mir auf ein besonderes Date gehen?</h2>
+        <div class="question-actions">
+          <button class="pixel-button yes-button" type="button" data-action="yes">Ja ❤️</button>
+          <button class="pixel-button no-button" type="button" data-action="no">Nein</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="confirm" aria-labelledby="confirm-title">
+        <div class="burst" aria-hidden="true"></div>
+        <h2 id="confirm-title">YAY! ❤️</h2>
+        <p>Ich wusste, dass du Ja sagst!!</p>
+        <button class="pixel-button primary" type="button" data-action="choose">
+          Date aussuchen
+        </button>
+      </section>
+
+      <section class="screen" data-screen="dates" aria-labelledby="dates-title">
+        <p class="level-label">Level 2</p>
+        <h2 id="dates-title">Such dir unser Date aus</h2>
+        <div class="date-grid" role="radiogroup" aria-label="Date-Auswahl"></div>
+        <button class="pixel-button primary confirm-choice" type="button" data-action="confirm-choice" disabled>
+          Auswahl bestätigen
+        </button>
+      </section>
+
+      <section class="screen" data-screen="final" aria-labelledby="final-title">
+        <p class="level-label">Side-Quest gespeichert</p>
+        <h2 id="final-title">Unser Date steht!</h2>
+        <div class="result-card">
+          <p class="result-label">Das hast du dir ausgesucht:</p>
+          <p class="result-choice"></p>
+        </div>
+        <img class="couple-photo" src="assets/photo.jpg" alt="Gemeinsames Foto" hidden>
+        <p class="personal-message"></p>
+        <div class="final-actions">
+          <button class="pixel-button primary" type="button" data-action="copy">Nachricht kopieren</button>
+          <button class="pixel-button secondary" type="button" data-action="restart">Nochmal ansehen</button>
+        </div>
+        <p class="copy-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
