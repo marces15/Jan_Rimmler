@@ -20,7 +20,6 @@ const noTexts = [
   "Wieso nicht, Schätz? 😢",
   "Überleg noch mal🥺",
   "Komm schon, bitte 😢",
-  "Du erwischst mich nicht LOL 😛",
   "Bist du Späst?"
 ];
 
@@ -39,7 +38,7 @@ function showScreen(name) {
   });
 
   const activeScreen = document.querySelector(`[data-screen="${name}"]`);
-  const firstControl = activeScreen?.querySelector("input:not([disabled]), textarea:not([disabled]), button:not([disabled]), [role='radio']");
+  const firstControl = activeScreen?.querySelector("button:not([disabled]), [role='radio']");
   if (firstControl) {
     setTimeout(() => firstControl.focus({ preventScroll: true }), 80);
   }
@@ -251,6 +250,18 @@ document.querySelector(".schedule-form").addEventListener("submit", (event) => {
   selectedTime = document.querySelector(".time-input").value;
   selectedNote = document.querySelector(".note-input").value.trim();
   saveAndShowFinal();
+});
+
+document.querySelectorAll(".date-input, .time-input").forEach((input) => {
+  input.addEventListener("click", () => {
+    if (typeof input.showPicker === "function") {
+      try {
+        input.showPicker();
+      } catch {
+        input.focus();
+      }
+    }
+  });
 });
 
 noButton.addEventListener("click", (event) => {
