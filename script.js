@@ -17,11 +17,11 @@ const screens = Array.from(document.querySelectorAll(".screen"));
 const noButton = document.querySelector(".no-button");
 const noTexts = [
   "Bist du sicher?🥺",
+  "Wieso nicht, Schätz? 😢",
   "Überleg noch mal🥺",
-  "Späst",
+  "Komm schon, bitte 😢",
   "Du erwischst mich nicht LOL 😛",
-  "Opfer",
-  "Mein Großmutter klickt besser..."
+  "Bist du Späst?"
 ];
 
 let selectedChoice = "";
