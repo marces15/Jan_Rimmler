@@ -404,12 +404,10 @@ p {
   min-width: 12rem;
   min-height: 4rem;
   font-size: 1.3rem;
-  align-self: flex-start;
 }
 
 .no-button {
   min-width: 7.25rem;
-  align-self: flex-end;
   transform: translate(var(--no-x, 0), var(--no-y, 0));
   z-index: 3;
 }
