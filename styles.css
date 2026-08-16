@@ -468,14 +468,16 @@ p {
 }
 
 .schedule-form {
+  display: grid;
   width: min(34rem, 100%);
-  align-items: end;
+  gap: 1rem;
+  align-items: stretch;
   min-width: 0;
 }
 
 .pixel-field {
   display: grid;
-  flex: 1 1 14rem;
+  width: 100%;
   min-width: 0;
   gap: 0.45rem;
   color: var(--ink);
@@ -484,7 +486,7 @@ p {
 }
 
 .pixel-field.full {
-  flex-basis: 100%;
+  width: 100%;
 }
 
 .pixel-field input,
